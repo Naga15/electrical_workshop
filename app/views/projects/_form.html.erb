@@ -1,0 +1,196 @@
+<style>
+  .select2-container{
+      width: 200px !important;
+  }
+</style>
+<div class="form-group">
+  <label class="col-sm-4" for="project_projectname">Project Name:</label>
+  <div class="col-sm-8">
+    <%= text_field_tag "project[projectname]", @project.projectname, class: "form-control"%>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="form-group">
+  <label class="col-sm-4" for="project_priority">Priority Number:</label>
+  <div class="col-sm-8">
+    <%= text_field_tag "project[priority]", @project.priority, class: "form-control"%>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="form-group">
+  <label class="col-sm-4" for="project_contract">Contract Number:</label>
+  <div class="col-sm-8">
+    <%= text_field_tag "project[contract]", @project.contract, class: "form-control"%>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="form-group">
+  <label class="col-sm-4" for="project_salescontact">Sales Person:</label>
+  <div class="col-sm-8">
+    <%= text_field_tag "project[salescontact]", @project.salescontact, class: "form-control"%>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="form-group">
+  <label class="col-sm-4" for="project_engineer">Engineer
+    :</label>
+  <div class="col-sm-8">
+    <%= text_field_tag "project[engineer]", @project.engineer, class: "form-control"%>
+  </div>
+  <div class="clearfix"></div>
+</div>
+
+<div class="form-group">
+  <label class="col-sm-4" for="project_podate">PO Received:</label>
+  <div class="col-sm-8">
+    <%= text_field_tag "project[podate]", @project.podate.try(:strftime,("%d/%m/%Y")), class: "form-control"%>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="form-group">
+  <label class="col-sm-4" for="project_buildready">Panel Parts Arrived:</label>
+  <div class="col-sm-8">
+    <%= text_field_tag "project[buildready]", @project.buildready, class: "form-control"%>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="form-group">
+  <label class="col-sm-4" for="project_qcdate">Date QC Tested:</label>
+  <div class="col-sm-8">
+    <%= text_field_tag "project[qcdate]", @project.qcdate.try(:strftime,("%d/%m/%Y")), class: "form-control"%>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="form-group">
+  <label class="col-sm-4" for="project_shipdate">Shipped Date:</label>
+  <div class="col-sm-8">
+    <%= text_field_tag "project[shipdate]", @project.shipdate.try(:strftime,("%d/%m/%Y")), class: "form-control"%>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<div class="form-group">
+  <label class="col-sm-4" for="project_mtdr">MTDR:</label>
+  <div class="col-sm-8">
+    <%= text_field_tag "project[mtdr]", @project.mtdr, class: "form-control"%>
+  </div>
+  <div class="clearfix"></div>
+</div>
+
+<div class="form-group">
+  <label class="col-sm-4" for="project_quicknote">Note:</label>
+  <div class="col-sm-8">
+    <%= text_area_tag "project[quicknote]", @project.quicknote, class: "form-control"%>
+  </div>
+  <div class="clearfix"></div>
+</div>
+
+<div class="form-group">
+  <label class="col-sm-4" for="add_component_button"></label>
+  <div class="col-sm-8">
+    <%= link_to  "#", class: "btn btn-default pull-right","data-toggle"=>"modal", "data-target"=>"#AddComponentModal" do %>
+        ADD Component <i class="fa fa-plus-square"></i>
+    <% end %>
+    <div class="clearfix"></div>
+    </br>
+  </div>
+</div>
+
+
+
+
+<div id="component_form_id"></div>
+<div class="modal fade" id="AddComponentModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Add Component Type</h4>
+      </div>
+      <div class="modal-body">
+        <div id= "learning_disabilities_content" class="col-sm-6 client-show-all-tables table-responsive"  style="width:100%;">
+
+          <div class="form-group">
+            <label class="col-sm-4" for="client_relationship">Component Type:</label>
+            <div class="col-sm-8">
+              <%= select_tag "component_type[name]", "", class: "form-control"%> &nbsp;
+              <%= button_tag "Save",type:"button",class:"close" ,"data-dismiss"=>"modal", "aria-hidden"=>"true", class: "btn btn-success btn-sm", id: "add_component" %></br>
+              OR</br>
+              <%= link_to "Add Component Type",new_component_type_path, :data => { :colorbox => true, :colorbox_height => '300px', :colorbox_width => '564px', :colorbox_iframe => true }  %>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+
+
+
+
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% unless current_page?(action: :new)%>
+    <% @project.components.each do |component| %>
+        <%= render partial: "component_details_form",locals: {component: component.component_type,project_component: component  } %>
+        <div class="form-group">
+          <div class="col-sm-12">
+            <%= link_to("Edit",edit_component_path(component),class: "btn btn-default") %>
+            <%= link_to("Delete",component_path(component),class: "btn btn-danger", method: :delete,remote:true, data: {confirm: "Are You sure?"}) %>
+            <div class="clearfix"></div>
+            </br>
+          </div>
+        </div>
+    <% end %>
+<% end %>
+<%if @component_types.present? %>
+    <h4 class="col-sm-12"><%= @template_type %></h4></br>
+    <div class="clearfix"></div>
+    <% @component_types.each do |component| %>
+        <%= render partial: "component_details_form",locals: {component: component,project_component: nil  } %>
+    <% end %>
+<% end %>
+
+<div class="form-group col-sm-12">
+
+  <%= submit_tag "Save", class: "btn btn-success pull-right" %>
+</div>
+
+
+<script>
+    $("#component_type_name").select2({
+        ajax: {
+            url: "/component_type_list",
+            dataType: 'json',
+            type: "GET",
+            quietMillis: 50,
+            data: function (params) {
+                return {
+                    q: params.term, // search term
+                    page: params.page
+                };
+            },
+            processResults: function (data, page) {
+
+                return {
+                    results: data
+                };
+            },
+            cache: true
+        },
+        minimumInputLength: 2
+    });
+    $("#add_component").click(function(){
+        value=$("#component_type_name").select2('val');
+        $.ajax({
+            type: 'GET',
+            url: "/component_update",
+            data: { value:value },
+            dataType: "script"
+        }).done(function(text) {
+
+        });
+    });
+
+</script>
+

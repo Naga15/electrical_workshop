@@ -1,0 +1,23 @@
+<ol class="breadcrumb">
+  <li ><%= link_to "Home", root_path %></li>
+  <li class="active">Edit Project</li>
+</ol>
+<div class="margin_top20 row">
+  <div class="col-sm-12">
+    <div class="main_content">
+
+
+      <div class="col-sm-6 col-sm-offset-2">
+        <h4 >Edit Project</h4><br />
+        <%= form_tag(project_path, id: "project_details", method: :put, remote: true) do |f| %>
+
+            <%= render partial: "form" %>
+
+
+        <% end %>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+<div class="clearfix "></div>
